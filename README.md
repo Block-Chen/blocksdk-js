@@ -12,7 +12,7 @@ __Welcome to BlockSDK JS__. This repository contains BlockSDK's PHP SDK and samp
 
 ## Prerequisites
 
-   - [deasync](http://php.net/manual/en/book.json.php) & [request](http://php.net/manual/en/book.openssl.php) extensions must be enabled
+   - [deasync](https://www.npmjs.com/package/deasync) & [request](https://www.npmjs.com/package/request) extensions must be enabled
    
 ### In Node.js
 

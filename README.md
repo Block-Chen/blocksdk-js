@@ -29,27 +29,26 @@ npm install blocksdk-js
 ```javascript
 
 var blockSDK = new BlockSDK("");
-var btcClient = $blockSDK->createBitcoin();
+var btcClient = blockSDK.createBitcoin();	
 ```
 ### Get Address info
 ```javascript
-$addressInfo = $btcClient->getAddressInfo([
-    "address" => "18cBEMRxXHqzWWCxZNtU91F5sbUNKhL5PX",
-    "rawtx" => true,
-    "reverse" => true,
-    "offset" => 0,
-    "limit" => 10
-]);
+var addressInfo = btcClient.getAddressInfo({
+    "address" : "18cBEMRxXHqzWWCxZNtU91F5sbUNKhL5PX",
+    "rawtx" : true,
+    "reverse" : true,
+    "offset" : 0,
+    "limit" : 10
+});
 
-var_dump($addressInfo);
+var_dump(addressInfo);
 ```
 
 ### Create an Bitcoin Wallet
 ```javascript
-<?php
-$wallet = $btcClient->createWallet([
-    "name" => "test"
-]);
+var wallet = btcClient.createWallet({
+    "name" : "test"
+});
 ```
 
 [install-packagist]: https://packagist.org/packages/block-chen/blocksdk-php

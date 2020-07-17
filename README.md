@@ -12,33 +12,27 @@ __Welcome to BlockSDK PHP__. This repository contains BlockSDK's PHP SDK and sam
 
 ## Prerequisites
 
-   - PHP 5.5+
-   - [curl](http://php.net/manual/en/book.curl.php), [json](http://php.net/manual/en/book.json.php) & [openssl](http://php.net/manual/en/book.openssl.php) extensions must be enabled
+   - [deasync](http://php.net/manual/en/book.json.php) & [request](http://php.net/manual/en/book.openssl.php) extensions must be enabled
    
-## Getting Started
-**Install the SDK** – Using [Composer] is the recommended way to install the
-   BlockSDK for PHP. The SDK is available via [Packagist] under the
-   [`block-chen/blocksdk-php`][install-packagist] package. If Composer is installed globally on your system, you can run the following in the base directory of your project to add the SDK as a dependency:
-   ```
-   composer require block-chen/blocksdk-php
-   ```
+### In Node.js
+
+The preferred way to install the BlockSDK for Node.js is to use the
+[npm](http://npmjs.org) package manager for Node.js. Simply type the following
+into a terminal window:
+
+```sh
+npm install blocksdk-js
+```
 
 ## Quick Examples
 ### Create an Bitcoin client
-```php
-<?php
-use BlockSDK;
+```javascript
 
-$blockSDK = new BlockSDK("YOU_TOKEN");
-$btcClient = $blockSDK->createBitcoin();
-
-//or
-
-$btcClient = BlockSDK::createBitcoin("YOU_TOKEN");
+var blockSDK = new BlockSDK("");
+var btcClient = $blockSDK->createBitcoin();
 ```
 ### Get Address info
-```php
-<?php
+```javascript
 $addressInfo = $btcClient->getAddressInfo([
     "address" => "18cBEMRxXHqzWWCxZNtU91F5sbUNKhL5PX",
     "rawtx" => true,
@@ -51,7 +45,7 @@ var_dump($addressInfo);
 ```
 
 ### Create an Bitcoin Wallet
-```php
+```javascript
 <?php
 $wallet = $btcClient->createWallet([
     "name" => "test"
@@ -59,6 +53,6 @@ $wallet = $btcClient->createWallet([
 ```
 
 [install-packagist]: https://packagist.org/packages/block-chen/blocksdk-php
-[composer]: http://getcomposer.org
+[npm](http://npmjs.org)
 [packagist]: http://packagist.org
 [BlockSDK Developer Docs]: https://docs.blocksdk.com

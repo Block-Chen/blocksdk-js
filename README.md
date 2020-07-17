@@ -1,12 +1,13 @@
 # PHP REST API SDK for BlockSDK
 [![@BLOCKSDK on Twitter](https://img.shields.io/badge/twitter-%40BLOCKSDK-blue.svg)](https://twitter.com/BlockSdk)
 [![@BLOCKSDK on Facebook](https://img.shields.io/badge/facebook-%40BLOCKSDK-blue.svg)](https://www.facebook.com/blocksdk)
-//[![Total Downloads](https://img.shields.io/packagist/dt/block-chen/blocksdk-php.svg?style=flat)](https://packagist.org/packages/block-chen/blocksdk-php)
+[![NPM version](https://img.shields.io/npm/v/blocksdk-js.svg)](https://www.npmjs.com/package/blocksdk-js)
+[![NPM downloads](https://img.shields.io/npm/dm/blocksdk-js.svg)](https://www.npmjs.com/package/blocksdk-js)
 
 __Welcome to BlockSDK PHP__. This repository contains BlockSDK's PHP SDK and samples for REST API.
 
 ## SDK Documentation
-[ Our BlockSDK-PHP Page ](https://docs.blocksdk.com/) includes all the documentation related to PHP SDK. Sample Codes, to Releases. Here are few quick links to get you there faster.
+[ Our BlockSDK-JS Page ](https://docs.blocksdk.com/) includes all the documentation related to PHP SDK. Sample Codes, to Releases. Here are few quick links to get you there faster.
 * [ BlockSDK Developer Docs]
 
 ## Prerequisites

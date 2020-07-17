@@ -41,7 +41,7 @@ var addressInfo = btcClient.getAddressInfo({
     "limit" : 10
 });
 
-var_dump(addressInfo);
+console.log(addressInfo);
 ```
 
 ### Create an Bitcoin Wallet

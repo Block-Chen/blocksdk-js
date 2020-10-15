@@ -28,7 +28,7 @@ npm install blocksdk-js
 ### Create an Bitcoin client
 ```javascript
 
-var blockSDK = new BlockSDK("");
+var blockSDK = new BlockSDK("YOU TOKEN");
 var btcClient = blockSDK.createBitcoin();	
 ```
 ### Get Address info

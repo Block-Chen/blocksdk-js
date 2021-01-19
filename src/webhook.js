@@ -11,18 +11,18 @@ const util = require('util');
 
 		this.create = function(request = {}){ 
 			
-			return this.request("POST","/hook",{
-				"callback": request['callback'],
-				"category": request['category'],
+			return this.request("POST","/hooks",{
+				"callback_url": request['callback_url'],
+				"symbol": request['symbol'],
 				"address": request['address']
 			});
 		}
 		
-		this.list = function(request = {}){ 
+		this.getWebhooks = function(request = {}){ 
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			
-			return this.request("GET","/hook",{
+			return this.request("GET","/hooks",{
 				"offset": request['offset'],
 				"limit": request['limit']
 			});
@@ -30,30 +30,30 @@ const util = require('util');
 		
 		this.get = function(request = {}){ 
 
-			return this.request("GET",`/hook/${request['hook_id']}`);
+			return this.request("GET",`/hooks/${request['hook_id']}`);
 		}
 		
 		this.delete = function(request = {}){ 
 
-			return this.request("POST",`/hook/${request['hook_id']}/delete`);
+			return this.request("DELETE",`/hooks/${request['hook_id']}`);
 		}
 		
-		this.listResponse = function(request = {}){ 
+		this.getResponses = function(request = {}){ 
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			
-			return this.request("GET","/hook/response",{
+			return this.request("GET","/hooks/responses",{
 				"offset": request['offset'],
 				"limit": request['limit']
 			});			
 		}		
 		
-		this.getResponse = function(request = {}){ 
+		this.getHookResponses = function(request = {}){ 
 
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 
-			return this.request("GET",`/hook/${request['hook_id']}/response`,{
+			return this.request("GET",`/hooks/${request['hook_id']}/responses`,{
 				"offset": request['offset'],
 				"limit": request['limit']
 			});			

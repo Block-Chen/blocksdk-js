@@ -5,12 +5,13 @@ const util = require('util');
 
 	BlockSDK.Litecoin = function(api_token = ''){
 
-		this.api_token = api_token;
-
 		Base.apply(this, arguments);
 
+		this.api_token = api_token;
+
+
 		this.getBlockChain = function (){
-			return this.request("GET","/ltc/block");
+			return this.request("GET","/ltc/info");
 		}
 
 		this.getBlock = function (request = {}){
@@ -19,7 +20,7 @@ const util = require('util');
 			if (typeof request['rawtx'] == 'undefined') request['rawtx'] = false;
 
 
-			return this.request("GET",`/ltc/block/${request['block']}`,{
+			return this.request("GET",`/ltc/blocks/${request['block']}`,{
 				"rawtx": request['rawtx'],
 				"offset": request['offset'],
 				"limit": request['limit']
@@ -42,9 +43,9 @@ const util = require('util');
 			if (typeof request['reverse'] == 'undefined') request['reverse'] = true;
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
-			if (typeof request['rawtx'] == 'undefined') request['rawtx'] = false;
+			if (typeof request['rawtx'] == 'undefined') request['rawtx'] = null;
 
-			return this.request("GET",`/ltc/address/${request['address']}`,{
+			return this.request("GET",`/ltc/addresses/${request['address']}`,{
 				"reverse":request['reverse'],
 				"rawtx":request['rawtx'],
 				"offset":request['offset'],
@@ -52,53 +53,57 @@ const util = require('util');
 			});
 		}
 
+
 		this.getAddressBalance = function (request = {}){
 
-			return this.request("GET",`/ltc/address/${request['address']}/balance`);
+			return this.request("GET",`/ltc/addresses/${request['address']}/balance`);
 		}
 
 
-		this.listWallet = function (request = {}){
+		this.getWallets = function (request = {}){
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 
-			return this.request("GET","/ltc/wallet",{
+			return this.request("GET","/ltc/wallets",{
 				"offset":request['offset'],
 				"limit":request['limit']
 			});
 		}
+		
+		
+		this.getWallet = function (request = {}){
 
-		this.createWallet = function (request = {}){
+			return this.request("GET",`/ltc/wallets/${request['wallet_id']}`);
+		}
+
+		this.createHdWallet = function (request = {}){
 			if (typeof request['name'] == 'undefined') request['name'] = null;
 
-			return this.request("POST","/ltc/wallet",{
+			return this.request("POST","/ltc/wallets/hd",{
 				"name": request['name']
 			});
 		}
 
 		this.loadWallet = function (request = {}){
-
 			return this.request("POST",`/ltc/wallet/${request['wallet_id']}/load`,{
-				"seed_wif": request['seed_wif'],
+				"wif": request['wif'],
 				"password": request['password']
 			});
 		}
 
-		this.unLoadWallet = function (request = {}){
-
-			return this.request("POST",`/ltc/wallet/${request['wallet_id']}/unload`);
+		this.unloadWallets = function (request = {}){
+			return this.request("POST",`/ltc/wallets/${request['wallet_id']}/unload`);
 		}
 
 
-		this.listWalletAddress = function (request = {}){
-
+		this.getWalletAddresses = function (request = {}){
 			if (typeof request['address'] == 'undefined') request['address'] = null;
 			if (typeof request['hdkeypath'] == 'undefined') request['hdkeypath'] = null;
 
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 
-			return this.request("GET",`/ltc/wallet/${request['wallet_id']}/address`,{
+			return this.request("GET",`/ltc/wallets/${request['wallet_id']}/addresses`,{
 				"address": request['address'],
 				"hdkeypath": request['hdkeypath'],
 				"offset": request['offset'],
@@ -108,54 +113,54 @@ const util = require('util');
 
 
 		this.createWalletAddress = function (request = {}){
-
-			if (typeof request['seed_wif'] == 'undefined') request['seed_wif'] = null;
+			if (typeof request['wif'] == 'undefined') request['wif'] = null;
 			if (typeof request['password'] == 'undefined') request['password'] = null;
 
-			return this.request("POST",`/ltc/wallet/${request['wallet_id']}/address`,{
-				"seed_wif": request['seed_wif'],
+			return this.request("POST",`/ltc/wallets/${request['wallet_id']}/addresses`,{
+				"wif": request['wif'],
 				"password": request['password']
 			});
 		}
 
 		this.getWalletBalance = function (request = {}){
 
-			return this.request("GET",`/ltc/wallet/${request['wallet_id']}/balance`);
+			return this.request("GET",`/ltc/wallets/${request['wallet_id']}/balance`);
 		}
 
 
-		this.getWalletTransaction = function (request = {}){
+		this.getWalletTransactions = function (request = {}){
 
-			if (typeof request['category'] == 'undefined') request['category'] = 'all';
+			if (typeof request['type'] == 'undefined') request['type'] = 'all';
 			if (typeof request['order'] == 'undefined') request['order'] = 'desc';
 
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 
-			return this.request("GET",`/ltc/wallet/${request['wallet_id']}/transaction`,{
-				"category": request['category'],
+			return this.request("GET",`/ltc/wallets/${request['wallet_id']}/transaction`,{
+				"type": request['type'],
 				"order": request['order'],
 				"offset": request['offset'],
 				"limit": request['limit']
 			});
 		}
 
-
 		this.sendToAddress = function (request = {}){
 
 			if(typeof request['kbfee'] == 'undefined'){
 				var blockChain = this.getBlockChain();
+				if(typeof blockChain['medium_fee_per_kb'] !== 'undefined'){
 				request['kbfee'] = blockChain['medium_fee_per_kb'];
 			}
+			}
 
-			if (typeof request['seed_wif'] == 'undefined') request['seed_wif'] = null;
+			if (typeof request['wif'] == 'undefined') request['wif'] = null;
 			if (typeof request['password'] == 'undefined') request['password'] = null;
 			if (typeof request['subtractfeefromamount'] == 'undefined') request['subtractfeefromamount'] = false;
 
-			return this.request("POST",`/ltc/wallet/${request['wallet_id']}/sendtoaddress`,{
+			return this.request("POST",`/ltc/wallets/${request['wallet_id']}/sendtoaddress`,{
 				"address": request['address'],
 				"amount": request['amount'],
-				"seed_wif": request['seed_wif'],
+				"wif": request['wif'],
 				"password": request['password'],
 				"kbfee": request['kbfee'],
 				"subtractfeefromamount" : request['subtractfeefromamount']
@@ -164,13 +169,13 @@ const util = require('util');
 
 		this.sendMany = function (request = {}){
 
-			if (typeof request['seed_wif'] == 'undefined') request['seed_wif'] = null;
+			if (typeof request['wif'] == 'undefined') request['wif'] = null;
 			if (typeof request['password'] == 'undefined') request['password'] = null;
 			if (typeof request['subtractfeefromamount'] == 'undefined') request['subtractfeefromamount'] = false;
 
-			return this.request("POST",`/ltc/wallet/${request['wallet_id']}/sendmany`,{
+			return this.request("POST",`/ltc/wallets/${request['wallet_id']}/sendmany`,{
 				"to" : request['to'],
-				"seed_wif" : request['seed_wif'],
+				"wif" : request['wif'],
 				"password" : request['password'],
 				"subtractfeefromamount" : request['subtractfeefromamount']
 			});
@@ -178,16 +183,17 @@ const util = require('util');
 
 		this.sendTransaction = function (request = {}){
 
-			return this.request("POST","/ltc/transaction",{
-				"sign_hex" : request['sign_hex']
+			return this.request("POST","/ltc/transactions/send",{
+				"hex" : request['hex']
 			});
 		}
 
 		this.getTransaction = function (request = {}){
 
-			return this.request("GET",`/ltc/transaction/${request['hash']}`);
+			return this.request("GET",`/ltc/transactions/${request['hash']}`);
 		}
 	};
+
 
 util.inherits(BlockSDK.Litecoin, Base);
 module.exports = BlockSDK.Litecoin;

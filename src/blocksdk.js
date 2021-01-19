@@ -4,10 +4,12 @@ var bitcoinInstance = require('./bitcoin');
 var ethereumInstance = require('./ethereum');
 var litecoinInstance = require('./litecoin');
 var moneroInstance = require('./monero');
-var priceInstance = require('./price');
 var webhookInstance = require('./webhook');
 var dashInstance = require('./dash');
 var bitcoincashInstance = require('./bitcoincash');
+var marketInstance = require('./market');
+var tokenInstance = require('./token');
+var toolInstance = require('./tool');
 
 	
 var BlockSDK = function(api_token = ''){
@@ -36,13 +38,6 @@ var BlockSDK = function(api_token = ''){
 			return new moneroInstance(this.api_token);
 		}
 
-
-		this.createPrice = function(){
-
-			return new priceInstance(this.api_token);
-		}
-
-
 		this.createWebHook = function(){
 
 			return new webhookInstance(this.api_token);
@@ -58,6 +53,21 @@ var BlockSDK = function(api_token = ''){
 		this.createBitcoinCash = function(){
 
 			return new bitcoincashInstance(this.api_token);
+		}
+	
+		this.createMarket = function(){
+
+			return new marketInstance(this.api_token);
+		}
+	
+		this.createToken = function(){
+
+			return new tokenInstance(this.api_token);
+		}
+	
+		this.createTool = function(){
+
+			return new toolInstance(this.api_token);
 		}
 
 

@@ -3,6 +3,7 @@
 [![@BLOCKSDK on Facebook](https://img.shields.io/badge/facebook-%40BLOCKSDK-blue.svg)](https://www.facebook.com/blocksdk)
 [![NPM version](https://img.shields.io/npm/v/blocksdk-js.svg)](https://www.npmjs.com/package/blocksdk-js)
 [![NPM downloads](https://img.shields.io/npm/dm/blocksdk-js.svg)](https://www.npmjs.com/package/blocksdk-js)
+[![DOCS](https://readthedocs.org/projects/sagemaker/badge/?version=stable)](https://docs-v2.blocksdk.com/)
 
 __Welcome to BlockSDK JS__. This repository contains BlockSDK's PHP SDK and samples for REST API.
 

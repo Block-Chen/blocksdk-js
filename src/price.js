@@ -3,22 +3,22 @@ var BlockSDK = BlockSDK || {};
 
 const util = require('util');
 	
-	BlockSDK.Price = function(api_token = ''){
+	BlockSDK.Tool = function(api_token = ''){
 
 	this.api_token = api_token;
 
 	Base.apply(this, arguments);
 		
-	this.listPrice = function(request = {}){
+	this.getHashType = function(request = {}){
 		
-		return this.request("GET","/price");
+		return this.request("GET",`/tools/hash-type/${request['hash']}`);
 	}
 		
 };
 
-util.inherits(BlockSDK.Price, Base);
+util.inherits(BlockSDK.Tool, Base);
 
-module.exports = BlockSDK.Price;
+module.exports = BlockSDK.Tool;
 
 
-//var price = new BlockSDK.Price('B1zZARyW1d2FdqWxPUpB79izHmtAc2Az693WF9DD'); console.log(price.listPrice());
+//var price = new BlockSDK.Tool('B1zZARyW1d2FdqWxPUpB79izHmtAc2Az693WF9DD'); console.log(price.listPrice());

@@ -20,33 +20,6 @@ BlockSDK.Base = function (api_token = ''){
     return new Date(y, m, d);
 	}
 
-    this.getUsage = function (request = {}){
-
-		if (typeof request['start_date'] == 'undefined'){
-			request['start_date'] = DateAdd(new Date(), 'd', -7); 
-			request['start_date'] = request['start_date'].toISOString().slice(0,10);
-		}
-
-
-		if (typeof request['end_date'] == 'undefined'){
-			request['end_date'] = new Date();
-			request['end_date'] = request['end_date'].toISOString().slice(0,10);
-		}
-
-		return this.request("GET","/usage",
-					{"start_date": request['start_date'],"end_date": request['end_date']});
-	};
-
-
-	this.listPrice = function(request = {}){
-			return this.request("GET","/price");
-		};
-
-
-	this.getHashType = function(request = {}){
-		return this.request("GET",`/auto/${request['hash']}/type`); 
-	};
-
 	this.request = function(method,path,data = {}){
 
 			var url = "https://api.blocksdk.com/v1".concat(path); 

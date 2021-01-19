@@ -10,7 +10,7 @@ const util = require('util');
 		this.api_token = api_token;
 
 		this.getBlockChain = function (){
-			return this.request("GET","/xmr/block");
+			return this.request("GET","/xmr/info");
 		}
 
 		this.getBlock = function (request = {}){
@@ -19,7 +19,7 @@ const util = require('util');
 			if (typeof request['rawtx'] == 'undefined') request['rawtx'] = false;
 
 
-			return this.request("GET",`/xmr/block/${request['block']}`,{
+			return this.request("GET",`/xmr/blocks/${request['block']}`,{
 				"rawtx": request['rawtx'],
 				"offset": request['offset'],
 				"limit": request['limit']
@@ -37,11 +37,11 @@ const util = require('util');
 				"limit": request['limit']
 			});
 		}
-		this.listAddress = function (request = {}){
+		this.getAddresses = function (request = {}){
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 
-			return this.request("GET","/xmr/address",{
+			return this.request("GET","/xmr/addresses",{
 				"offset": request['offset'],
 				"limit": request['limit']
 			});
@@ -50,17 +50,17 @@ const util = require('util');
 		this.createAddress = function (request = {}){
 			if (typeof request['name'] == 'undefined') request['name'] = null;
 
-			return this.request("POST","/xmr/address",{
+			return this.request("POST","/xmr/addresses",{
 				"name": request['name']
 			});
 		}
 
-				this.getAddressInfo = function (request = {}){
+		this.getAddressInfo = function (request = {}){
 
 			if (typeof request['limit'] == 'undefined') request['limit'] = 10;
 			if (typeof request['offset'] == 'undefined') request['offset'] = 0;
 
-			return this.request("GET",`/xmr/address/${request['address_id']}`,{
+			return this.request("GET",`/xmr/addresses/${request['address_id']}`,{
 				"private_spend_key":request['private_spend_key'],
 				"offset":request['offset'],
 				"limit":request['limit']
@@ -70,22 +70,22 @@ const util = require('util');
 
 		this.getAddressBalance = function (request = {}){
 
-			return this.request("GET",`/xmr/address/${request['address_id']}/balance`,{
+			return this.request("GET",`/xmr/addresses/${request['address_id']}/balance`,{
 				"private_spend_key":request['private_spend_key'],
 			});
 		}
 
 		this.loadAddress = function (request = {}){
 
-			return this.request("POST",`/xmr/address/${request['address_id']}/load`,{
+			return this.request("POST",`/xmr/addresses/${request['address_id']}/load`,{
 				"private_spend_key":request['private_spend_key'],
 				"password":request['password'],
 			});
 		}
 
-		this.unLoadAddress = function (request = {}){
+		this.unloadAddress = function (request = {}){
 
-			return this.request("POST",`/xmr/address/${request['address_id']}/unload`);
+			return this.request("POST",`/xmr/addresses/${request['address_id']}/unload`);
 		}
 
 		this.sendToAddress = function (request = {}){
@@ -99,7 +99,7 @@ const util = require('util');
 			if (typeof request['private_spend_key'] == 'undefined') request['private_spend_key'] = null;
 			if (typeof request['subtractfeefromamount'] == 'undefined') request['subtractfeefromamount'] = false;
 
-			return this.request("POST",`/xmr/address/${request['address_id']}/sendtoaddress`,{
+			return this.request("POST",`/xmr/addresses/${request['address_id']}/sendtoaddress`,{
 				"address": request['address'],
 				"amount": request['amount'],
 				"private_spend_key": ['private_spend_key'],
@@ -108,10 +108,17 @@ const util = require('util');
 				"subtractfeefromamount": request['subtractfeefromamount']
 			});
 		}
+		
+		this.sendTransaction = function (request = {}){
+
+			return this.request("GET","/xmr/transactions/send",{
+				"hex":request['hex'],
+			});
+		}
 
 		this.getTransaction = function (request = {}){
 
-			return this.request("GET",`/xmr/transaction/${request['hash']}`);
+			return this.request("GET",`/xmr/transactions/${request['hash']}`);
 		}
 	};
 

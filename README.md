@@ -1,55 +1,31 @@
 # JS REST API SDK for BlockSDK
-[![@BLOCKSDK on Twitter](https://img.shields.io/badge/twitter-%40BLOCKSDK-blue.svg)](https://twitter.com/BlockSdk)
-[![@BLOCKSDK on Facebook](https://img.shields.io/badge/facebook-%40BLOCKSDK-blue.svg)](https://www.facebook.com/blocksdk)
 [![NPM version](https://img.shields.io/npm/v/blocksdk-js.svg)](https://www.npmjs.com/package/blocksdk-js)
 [![NPM downloads](https://img.shields.io/npm/dm/blocksdk-js.svg)](https://www.npmjs.com/package/blocksdk-js)
 [![DOCS](https://readthedocs.org/projects/sagemaker/badge/?version=stable)](https://docs-v2.blocksdk.com/)
 
-__Welcome to BlockSDK JS__. This repository contains BlockSDK's PHP SDK and samples for REST API.
+BlockSDK JS에 오신 것을 환영합니다. 이 저장소에는 BlockSDK의 JS SDK와 REST API용 샘플이 포함되어 있습니다.
 
-## SDK Documentation
-[ Our BlockSDK-JS Page ](https://docs.blocksdk.com/) includes all the documentation related to JS SDK. Sample Codes, to Releases. Here are few quick links to get you there faster.
-* [ BlockSDK Developer Docs]
 
-## Prerequisites
-
-   - [deasync](https://www.npmjs.com/package/deasync) & [request](https://www.npmjs.com/package/request) extensions must be enabled
-   
-### In Node.js
-
-The preferred way to install the BlockSDK for Node.js is to use the
-[npm](http://npmjs.org) package manager for Node.js. Simply type the following
-into a terminal window:
-
+### NPM 을 사용하여 Install
 ```sh
 npm install blocksdk-js
 ```
 
-## Quick Examples
-### Create an Bitcoin client
-```javascript
-
-var blockSDK = new BlockSDK("YOU TOKEN");
-var btcClient = blockSDK.createBitcoin();	
-```
-### Get Address info
-```javascript
-var addressInfo = btcClient.getAddressInfo({
-    "address" : "18cBEMRxXHqzWWCxZNtU91F5sbUNKhL5PX",
-    "rawtx" : true,
-    "reverse" : true,
-    "offset" : 0,
-    "limit" : 10
-});
-
-console.log(addressInfo);
+### Yaen 을 사용하여 Install
+```sh
+yarn add blocksdk-js
 ```
 
-### Create an Bitcoin Wallet
+## 빠른 사용 샘플
+### Create Client
 ```javascript
-var wallet = btcClient.createWallet({
-    "name" : "test"
-});
+const BLOCKSDK = require('blocksdk-js');
+const client = new BLOCKSDK("YOU_TOKEN");
+```
+### 이더리움 블록체인 정보 가져오기
+```javascript
+let result = client.ethereum.GetBlockChainInfo();
+console.log(result);
 ```
 
 [install-packagist]: https://packagist.org/packages/block-chen/blocksdk-php

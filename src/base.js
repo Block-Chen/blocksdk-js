@@ -1,146 +1,63 @@
-var BlockSDK = BlockSDK || {};
+const axios = require('axios');
 
-BlockSDK.Base = function (api_token = ''){
+class base {
 
-    this.api_token = api_token; 
+    constructor(api_token,endpoint="https://testnet-api.blocksdk.com") {
+        this.api_token = api_token;
+        this.endpoint = endpoint;
+    }
 
-    function DateAdd(date, type, amount){
-    var y = date.getFullYear(),
-        m = date.getMonth(),
-        d = date.getDate();
-    if(type === 'y'){
-        y += amount;
-    };
-    if(type === 'm'){
-        m += amount;
-    };
-    if(type === 'd'){
-        d += amount;
-    };
-    return new Date(y, m, d);
-	}
-
-	this.request = function(method,path,data = {}){
-
-			var url = "https://api.blocksdk.com/v1".concat(path); 
-			var len_dict = Object.keys(data).length; 
-
-			if(method == "GET" && len_dict > 0)
-			{
-				url = url.concat("?");
-
-				for (var key in data){
-
-					var value = data[key];
-
-					if(value == true){
-						url = url.concat(key,"=true&");
-					}
-
-					else if(value == false){
-						url = url.concat(key,"=false&");
-					}
-
-					else
-					{
-						url = url.concat(key,"=",value,"&");
-					}
-				}
-			}
-
-			const request = require('request');
-			var deasync = require('deasync');
-			var ultimate_result = null;
-			if(method == "POST"){
-				request({
-				    url: url,
-				    method: "POST",
-				    json: true,
-				    body: data,
-				    headers: { 'Content-Type': 'application/json','x-api-key': this.api_token}
-	       
-				}, function (error, response, body){
-				    //console.log(response);
-			var result = response;
-			var header_array = {}; 
-			var result_decode = {}; 
-			if (result.body){
-				result_decode = result.body;
-			}			
-
-			result_decode['HTTP_HEADER'] = result.headers;
-			result_decode['HTTP_HEADER']['statusCode'] = result.statusCode;
-			var result_row = result_decode['HTTP_HEADER'];
+    async request(method,path,data = {}){
+        let url = this.endpoint + "/v3" + path
 
 
-			for (var key in result_row) {
-		   		 if (result_row.hasOwnProperty(key)) {}
-		    	else{
-		    			if(key == "statusCode"){
-		   		 		result_row[key] = 0;
-		   		 	}
-					else if(key.substr(0, 1) == "\t"){
-						result_row[Object.keys(result_row)[Object.keys(result_row).length - 1]] += "\r\n\t" + key.trim();
-					}
-					else{
-						result_row[Object.keys(header_array)[Object.keys(header_array).length - 1]] += key.trim();
-					}
-		    	}
+        let result = {}
 
-			}
-				ultimate_result = result_decode;
-				result_decode['HTTP_HEADER'] = result_row;
-				ultimate_result = result_decode;
-				return result_decode;
-				});
-			}
-			else{
-					request({
-				    url: url,
-				    method: method,
-				    headers: { 'Content-Type': 'application/json','x-api-key': this.api_token}
-	       		}, function (error, response, body){
-				    //console.log(response);
-				    //console.log(url);
-			var result = response;
-			var header_array = {}; 
-			var result_decode = {}; 
-			if (result.body){
-				result_decode = JSON.parse(result.body);
-			}			
+        try {
+            if(method == "GET") {
+                url = url + "?" + Object.entries(data).map(e => e.join('=')).join('&');
 
-			result_decode['HTTP_HEADER'] = result.headers;
-			result_decode['HTTP_HEADER']['statusCode'] = result.statusCode;
-			var result_row = result_decode['HTTP_HEADER'];
+                result = await axios.get(url, {
+                    withCredentials: true,
+                    headers : {
+                        'x-api-token'   : this.api_token
+                    }
+                })
 
-			for (var key in result_row) {
-		   		 if (result_row.hasOwnProperty(key)) {}
-		    	else{
-		    			if(key == "statusCode"){
-		   		 		result_row[key] = 0;
-		   		 	}
-					else if(key.substr(0, 1) == "\t"){
-						result_row[Object.keys(result_row)[Object.keys(result_row).length - 1]] += "\r\n\t" + key.trim();
-					}
-					else{
-						result_row[Object.keys(header_array)[Object.keys(header_array).length - 1]] += key.trim();
-					}
-		    	}
-			}
-				result_decode['HTTP_HEADER'] = result_row;
-				ultimate_result = result_decode;
-				return result_decode;
-				});
+            }else if(method == "POST"){
+                let fd = new FormData();
 
+                for (var index in data) {
+                    if (typeof data[index] == 'object'){
+                        for (var index2 in data[index]) {
+                            fd.append(index + `[${index2}]`, data[index][index2])
+                        }
+                    }else {
+                        fd.append(index, data[index])
+                    }
+                }
+                result = await axios.post(url, fd,{
+                    withCredentials: true,
+                    headers : {
+                        'Content-Type'  : 'multipart/form-data',
+                        'x-api-token'   : this.api_token
+                    }
+                })
+            }
 
-			}	
-				while((ultimate_result == null))
-			    {
-			         deasync.runLoopOnce();
-			    }
-			    return ultimate_result;
-		}
-};
+            result.data.payload = {
+                ...result.data.payload,
+                requestData : data
+            }
+            return result.data.payload;
+        }catch (e) {
+            console.error(url)
+            console.log(e)
+            return false
+        }
 
-module.exports = BlockSDK.Base;
-//var abc = new BlockSDK.Base('B1zZARyW1d2FdqWxPUpB79izHmtAc2Az693WF9DD'); console.log(abc.listPrice());
+        return false
+    }
+}
+
+module.exports = base

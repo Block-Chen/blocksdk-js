@@ -1,87 +1,22 @@
-const Base = require('./base');
-const util = require('util');
-var bitcoinInstance = require('./bitcoin');
-var ethereumInstance = require('./ethereum');
-var litecoinInstance = require('./litecoin');
-var moneroInstance = require('./monero');
-var webhookInstance = require('./webhook');
-var dashInstance = require('./dash');
-var bitcoincashInstance = require('./bitcoincash');
-var marketInstance = require('./market');
-var tokenInstance = require('./token');
-var toolInstance = require('./tool');
+const Ethereum = require('./ethereum')
+const Avalanche = require('./avalanche')
+const EthereumClassic = require('./ethereumclassic')
+const Klaytn = require('./klaytn')
+const BinanceSmart = require('./binancesmart')
+const Polygon = require('./polygon')
 
-	
-var BlockSDK = function(api_token = ''){
-		Base.apply(this, arguments);
+class blocksdk {
 
-		this.api_token = api_token;
-
-		this.createBitcoin = function(){
-
-			return new bitcoinInstance(this.api_token);
-		}
-
-		this.createEthereum = function(){
-
-			return new ethereumInstance(this.api_token);
-		}
-
-		this.createLitecoin = function(){
-
-			return new litecoinInstance(this.api_token);
-		}
+    constructor(api_token) {
+        this.ethereum = new Ethereum(api_token);
+        this.avalanche = new Avalanche(api_token);
+        this.ethereumClassic = new EthereumClassic(api_token);
+        this.klaytn = new Klaytn(api_token);
+        this.binanceSmart = new BinanceSmart(api_token);
+        this.polygon = new Polygon(api_token);
+    }
 
 
-		this.createMonero = function(){
+}
 
-			return new moneroInstance(this.api_token);
-		}
-
-		this.createWebHook = function(){
-
-			return new webhookInstance(this.api_token);
-		}
-
-
-		this.createDash = function(){
-
-			return new dashInstance(this.api_token);
-		}
-
-		
-		this.createBitcoinCash = function(){
-
-			return new bitcoincashInstance(this.api_token);
-		}
-	
-		this.createMarket = function(){
-
-			return new marketInstance(this.api_token);
-		}
-	
-		this.createToken = function(){
-
-			return new tokenInstance(this.api_token);
-		}
-	
-		this.createTool = function(){
-
-			return new toolInstance(this.api_token);
-		}
-
-
-};
-//util.inherits(BlockSDK, BlockSDK.Base);
-module.exports = BlockSDK;
-
-
-// var blockSDKInstance  =  new BlockSDK('B1zZARyW1d2FdqWxPUpB79izHmtAc2Az693WF9DD'); 
-// var ethClient = blockSDKInstance.createEthereum();	
-// var output = ethClient.getBlockChain();
-// console.log(output);
-
-// var btcClient = blockSDKInstance.createBitcoin();		
-
-// var output = btcClient.getTransactionTracking({  "hash":"407f7a89c29bbf5f268ea4e78ad40feb380391acc71d4f79f911391dccfbf54a"});
-// console.log(output);
+module.exports = blocksdk

@@ -1,400 +1,125 @@
 const Base = require('./base');
-var BlockSDK = BlockSDK || {};
 
-const util = require('util');
+class binancesmart extends Base {
+    GetBlockChainInfo(){
+        return this.request(`GET`,`/bsc/info`);
+    }
+    GetBlock(request){
+        return this.request(`GET`,`/bsc/block/${request['block']}`,request);
+    }
+    GetAddresses(request){
+        return this.request(`GET`,`/bsc/address`,request);
+    }
+    CreateAddress(request){
+        return this.request(`POST`,`/bsc/address`,request);
+    }
+    GetAddressInfo(request){
+        return this.request(`GET`,`/bsc/address/${request['address']}`,request);
+    }
+    GetAddressBalance(request){
+        return this.request(`GET`,`/bsc/address/${request['address']}/balance`);
+    }
+    Send(request){
+        return this.request(`POST`,`/bsc/address/${request['from']}/send`,request);
+    }
+    SendTransaction(request){
+        return this.request(`POST`,`/bsc/transaction/send`,request);
+    }
+    GetTransaction(request){
+        return this.request(`GET`,`/bsc/transaction/${request['hash']}`);
+    }
+    GetTokenInfo(request){
+        return this.request(`GET`,`/bsc/token/${request['contract_address']}/info`);
+    }
+    SendToken(request){
+        return this.request(`POST`,`/bsc/token/${request['contract_address']}/${request['from']}/transfer`,request);
+    }
+    GetTokenBalance(request){
+        return this.request(`GET`,`/bsc/token/${request['contract_address']}/${request['from']}/balance`);
+    }
+    GetTokenTxs(request){
+        return this.request(`GET`,`/bsc/token/${request['from_address']}/transactions`,request);
+    }
+    GetTokenContractTxs(request){
+        return this.request(`GET`,`/bsc/token/${request['contract_address']}/${request['from_address']}/transactions`,request);
+    }
+    GetTokenAllBalance(request){
+        return this.request(`GET`,`/bsc/token/${request['from_address']}/all-balance`,request);
+    }
+    GetSingleNfts(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/nfts`,request);
+    }
+    GetSingleOwnerNfts(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['owner_address']}/owner-nfts`,request);
+    }
+    GetSingleCreatorNfts(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['creator_address']}/creator-nfts`,request);
+    }
+    GetSingleTxs(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['from_address']}/transactions`,request);
+    }
+    GetSingleNftOwnerNfts(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/${request['owner_address']}/owner-nfts`,request);
+    }
+    GetSingleNftCreatorNfts(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/${request['creator_address']}/creator-nfts`,request);
+    }
+    GetSingleNftTxs(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/${request['from_address']}/from-transactions`,request);
+    }
+    GetSingleNftInfo(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/${request['token_id']}/info`,request);
+    }
+    GetSingleNftTokenTxs(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/${request['token_id']}/nft-transactions`,request);
+    }
+    GetSingleNftAuctionNfts(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/auction-nfts`,request);
+    }
+    GetSingleNftSellerNfts(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/${request['seller_address']}/seller-nfts`,request);
+    }
+    GetSingleNftTokenBids(request){
+        return this.request(`GET`,`/bsc/single-nft/${request['contract_address']}/${request['token_id']}/nft-bids`,request);
+    }
+    GetMultiNfts(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['contract_address']}/nfts`,request);
+    }
+    GetMultiOwnerNfts(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['owner_address']}/owner-nfts`,request);
+    }
+    GetMultiCreatorNfts(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['creator_address']}/creator-nfts`,request);
+    }
+    GetMultiTxs(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['from_address']}/transactions`,request);
+    }
+    GetMultiNftOwnerNfts(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['contract_address']}/${request['owner_address']}/owner-nfts`,request);
+    }
+    GetMultiNftCreatorNfts(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['contract_address']}/${request['creator_address']}/creator-nfts`,request);
+    }
+    GetMultiNftTxs(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['contract_address']}/${request['from_address']}/from-transactions`,request);
+    }
+    GetMultiNftInfo(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['contract_address']}/${request['token_id']}/info`,request);
+    }
+    GetMultiNftTokenTxs(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['contract_address']}/${request['token_id']}/nft-transactions`,request);
+    }
+    GetMultiNftSellerNfts(request){
+        return this.request(`GET`,`/bsc/multi-nft/${request['contract_address']}/${request['seller_address']}/seller-nfts`,request);
+    }
+    ReadContract(request){
+        return this.request(`POST`,`/bsc/contract/${request['contract_address']}/read`,request);
+    }
+
+    WriteContract(request){
+        return this.request(`POST`,`/bsc/contract/${request['contract_address']}/write`,request);
+    }
 
-	BlockSDK.BinanceSmart = function(api_token = ''){
-
-		Base.apply(this, arguments);
-
-		this.api_token = api_token;
-
-		this.getBlockChain = function (){
-			return this.request("GET","/bsc/info");
-		}
-
-		this.getBlock = function(request={}){
-
-            if ( typeof request['rawtx'] == 'undefined') request['rawtx']=false;
-
-            if ( typeof request['offset'] == 'undefined') request['offset']=0;
-
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/blocks/${request['block']}`,{
-				"rawtx" : request['rawtx'],"offset": request['offset'],"limit" : request['limit']
-			});
-		}
-
-	    this.getMemPool = function(request = {}) {
-			if ( typeof request['rawtx'] == 'undefined') request['rawtx']=false;
-
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/mempool`,{
-				"rawtx" : request['rawtx'],
-				"offset" : request['offset'],
-				"limit" : request['limit']
-			});
-		}
-
-	    this.getAddress = function(request = {}){
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/addresses`,{
-				"offset" : request['offset'],
-				"limit" : request['limit']
-			});
-		}
-
-		this.loadAddress = function(request = {}){
-			return this.request("POST",`/bsc/addresses/${request['address']}/load`,{
-				"private_key" : request['private_key'],"password" : request['password']});
-		}
-
-		this.unloadAddress = function(request = {}){
-			return this.request("POST",`/bsc/addresses/{$request['address']}/unload`);
-		}
-
-		this.createAddress = function(request = {}){
-			if ( typeof request['name'] == 'undefined') request['name'] = null;
-			return this.request("POST",`/bsc/addresses`,{
-				"name" : request['name']});
-		}
-
-		this.getAddressInfo = function(request = {}){
-			if ( typeof request['reverse'] == 'undefined' ) request['reverse']=true;
-
-			if ( typeof request['rawtx'] == 'undefined' ) request['rawtx']=null;
-
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-
-			return this.request("GET",`/bsc/addresses/${request['address']}`,{
-				"reverse" : request['reverse'],
-				"rawtx"  : request['rawtx'],
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-
-		this.getAddressBalance = function(request = {}){
-
-			return this.request("GET",`/bsc/addresses/${request['address']}/balance`); }
-
-
-		this.sendToAddress = function(request = {}) {
-			if ( typeof request['gwei'] == 'undefined')
-			{
-			    var blockChain = this.getBlockChain();
-        	    if ( typeof request['medium_gwei'] !== 'undefined')
-        		request['gwei'] = blockChain['medium_gwei'] ;
-			}
-
-			if(typeof request['private_key'] == 'undefined') request['private_key']=null;
-
-			if(typeof request['password'] == 'undefined') request['password']=null;
-
-			if(typeof request['gas_limit'] == 'undefined') request['gas_limit']=null;
-
-			return this.request("POST",`/bsc/addresses/${request['from']}/sendtoaddress`,{
-				"to" : request['to'],
-				"amount" : request['amount'],
-				"private_key" : request['private_key'],
-				"password" : request['password'],
-				"gwei" : request['gwei'],
-				"gas_limit" : request['gas_limit']
-			});
-		}
-
-
-
-		this.sendTransaction = function(request = {}){
-			return this.request("POST",`/bsc/transactions/send`,{
-				"hex" : request['hex']
-			});
-		}
-
-		this.getTransaction = function(request = {}){
-			return this.request("GET",`/bsc/transactions/${request['hash']}`); }
-		}
-
-		this.getBep20 = function(request = {}){
-			return this.request("GET",`/bsc/bep20-tokens/${request['contract_address']}`); }
-		}
-		
-		this.getBep20Balance = function(request = {}){
-			return this.request("GET",`/bsc/bep20-tokens/${request['contract_address']}/${request['from']}/balance`); }
-		}
-		
-		this.getBep20Transfer = function(request = {}) {
-			if ( typeof request['gwei'] == 'undefined')
-			{
-			    var blockChain = this.getBlockChain();
-        	    if ( typeof request['medium_gwei'] !== 'undefined')
-        		request['gwei'] = blockChain['high_gwei'] ;
-			}
-
-			if(typeof request['private_key'] == 'undefined') request['private_key']=null;
-
-			if(typeof request['password'] == 'undefined') request['password']=null;
-
-			if(typeof request['gas_limit'] == 'undefined') request['gas_limit']=null;
-
-			return this.request("POST",`/bsc/bep20-tokens/${request['contract_address']}/${request['from']}/transfer`,{
-				"to" : request['to'],
-				"amount" : request['amount'],
-				"private_key" : request['private_key'],
-				"password" : request['password'],
-				"gwei" : request['gwei'],
-				"gas_limit" : request['gas_limit']
-			});
-		}
-		
-		this.getNfts = function(request = {}) {
-
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/tokens`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getOwnerNfts = function(request = {}) {
-
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/${request['owner_address']}/owner`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getCreatorNfts = function(request = {}) {
-
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/${request['creator_address']}/creator`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getAuctionNfts = function(request = {}) {
-			if ( typeof request['order_by'] == 'undefined') request['order_by']='end_time';
-			if ( typeof request['order_direction'] == 'undefined') request['order_direction']='desc';
-			
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/auction`,{
-				"order_by" : request['order_by'],
-				"order_direction" : request['order_direction'],
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getSaleNfts = function(request = {}) {
-			if ( typeof request['order_direction'] == 'undefined') request['order_direction']='desc';
-			
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/${request['seller_address']}/sale`,{
-				"order_direction" : request['order_direction'],
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getNftBids = function(request = {}) {
-			if ( typeof request['rawtx'] == 'undefined') request['rawtx']=0;
-			if ( typeof request['order_direction'] == 'undefined') request['order_direction']='desc';
-			
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/${request['token_id']}/bid`,{
-				"order_direction" : request['order_direction'],
-				"rawtx" : request['rawtx'],
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getNftInfo = function(request = {}) {
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/${request['token_id']}/info`,{
-			});
-		}
-		
-		this.getNftTransfers = function(request = {}) {
-			if ( typeof request['rawtx'] == 'undefined') request['rawtx']=0;
-			
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep721-tokens/${request['contract_address']}/${request['token_id']}/transfers`,{
-				"rawtx" : request['rawtx'],
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getMultiNft = function(request = {}) {
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/tokens`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getMultiNftOwnerList = function(request = {}) {
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/${request['token_id']}/list`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getMultiNftContractOwner = function(request = {}) {
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/${request['owner_address']}/owners`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getMultiNftOwner = function(request = {}) {
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['owner_address']}/owner`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-
-		this.getMultiNftContractCreator = function(request = {}) {
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/${request['creator_address']}/creators`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getMultiNftCreator = function(request = {}) {
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/creator`,{
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getMultiNftInfo = function(request = {}) {
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/info`,{
-			});
-		}
-		
-		this.getMultiNftTransfers = function(request = {}) {
-			if ( typeof request['rawtx'] == 'undefined') request['rawtx']=0;
-			
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/${request['token_id']}/transfers`,{
-				"rawtx" : request['rawtx'],
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getMultiSaleNfts = function(request = {}) {
-			if ( typeof request['order_direction'] == 'undefined') request['order_direction']=0;
-			
-			if ( typeof request['offset'] == 'undefined') request['offset']=0;
-			if ( typeof request['limit'] == 'undefined') request['limit']=10;
-
-			return this.request("GET",`/bsc/bep1155-tokens/${request['contract_address']}/${request['seller_address']}/sale`,{
-				"order_direction" : request['order_direction'],
-				"offset" : request['offset'],
-				"limit"  : request['limit']
-			});
-		}
-		
-		this.getContractRead = function(request = {}) {
-			if ( typeof request['parameter_type'] == 'undefined') request['parameter_type']=null;
-			if ( typeof request['parameter_data'] == 'undefined') request['parameter_data']=null;
-
-			return this.request("POST",`/bsc/contracts/${request['contract_address']}/read`,{
-				"method" : request['method'],
-				"return_type" : request['return_type'],
-				"parameter_type" : request['parameter_type'],
-				"parameter_data"  : request['parameter_data']
-			});
-		}
-		
-		this.getContractWrite = function(request = {}) {
-			if ( typeof request['private_key'] == 'undefined') request['private_key']=null;
-			if ( typeof request['password'] == 'undefined') request['password']=null;
-			if ( typeof request['gas_limit'] == 'undefined') request['gas_limit']=null;
-			
-			if ( typeof request['parameter_type'] == 'undefined') request['parameter_type']=null;
-			if ( typeof request['parameter_data'] == 'undefined') request['parameter_data']=null;
-
-			return this.request("POST",`/bsc/contracts/${request['contract_address']}/write`,{
-				"method" : request['method'],
-				"return_type" : request['return_type'],
-				"parameter_type" : request['parameter_type'],
-				"parameter_data"  : request['parameter_data'],
-				"from"  : request['from'],
-				"private_key"  : request['private_key'],
-				"password"  : request['password'],
-				"amount"  : request['amount'],
-				"gas_limit"  : request['gas_limit']
-			});
-		}
-		
-		this.getContractWriteFees = function(request = {}) {
-			if ( typeof request['gas_limit'] == 'undefined') request['gas_limit']=null;
-			
-			if ( typeof request['parameter_type'] == 'undefined') request['parameter_type']=null;
-			if ( typeof request['parameter_data'] == 'undefined') request['parameter_data']=null;
-
-			return this.request("POST",`/bsc/contracts/${request['contract_address']}/write/fees`,{
-				"method" : request['method'],
-				"return_type" : request['return_type'],
-				"parameter_type" : request['parameter_type'],
-				"parameter_data"  : request['parameter_data'],
-				"from"  : request['from'],
-				"amount"  : request['amount'],
-				"gas_limit"  : request['gas_limit']
-			});
-		}
-		
 }
-module.exports = BlockSDK.BinanceSmart;
-util.inherits(BlockSDK.BinanceSmart, Base);
+
+module.exports = binancesmart

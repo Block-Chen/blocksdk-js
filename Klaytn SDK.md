@@ -1,5 +1,5 @@
-### 이더리움 V3 REST API 문서
-[이더리움 개발자 문서 바로가기](https://documenter.getpostman.com/view/20292093/Uz5FKwxw#3dc0d320-c1b1-449f-b950-daca8249d474)
+### 클레이튼 V3 REST API 문서
+[클레이튼 개발자 문서 바로가기](https://documenter.getpostman.com/view/20292093/Uz5FKwxw#7b85cc54-fd97-4a30-9a6b-06808938c1bc)
 함수 호출에 필요한 매개변수 또는 반환되는 데이터에 대해서는 REST API 개발자 문서를 참고해 주시길 바랍니다.
 
 ### 클라이언트 생성 (테스트넷)

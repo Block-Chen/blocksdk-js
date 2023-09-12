@@ -25,21 +25,10 @@ class base {
                 })
 
             }else if(method == "POST"){
-                let fd = new FormData();
-
-                for (var index in data) {
-                    if (typeof data[index] == 'object'){
-                        for (var index2 in data[index]) {
-                            fd.append(index + `[${index2}]`, data[index][index2])
-                        }
-                    }else {
-                        fd.append(index, data[index])
-                    }
-                }
-                result = await axios.post(url, fd,{
+                result = await axios.post(url, data,{
                     withCredentials: true,
                     headers : {
-                        'Content-Type'  : 'multipart/form-data',
+                        'Content-Type'  : 'application/json',
                         'x-api-token'   : this.api_token
                     }
                 })

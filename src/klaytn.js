@@ -14,7 +14,7 @@ class klaytn extends Base{
         return this.request(`POST`,`/klay/address`,request);
     }
     GetAddressInfo(request){
-        return this.request(`GET`,`/klay/address/${request['address']}`,request);
+        return this.request(`GET`,`/klay/address/${request['address']}/info`,request);
     }
     GetAddressBalance(request){
 

@@ -14,7 +14,7 @@ class binancesmart extends Base {
         return this.request(`POST`,`/bsc/address`,request);
     }
     GetAddressInfo(request){
-        return this.request(`GET`,`/bsc/address/${request['address']}`,request);
+        return this.request(`GET`,`/bsc/address/${request['address']}/info`,request);
     }
     GetAddressBalance(request){
         return this.request(`GET`,`/bsc/address/${request['address']}/balance`);

@@ -18,7 +18,7 @@ BlockSDK JS에 오신 것을 환영합니다. 이 저장소에는 BlockSDK의 JS
 ## 개발자 문서
 * [BlockSDK REST API V3 문서](https://documenter.getpostman.com/view/20292093/Uz5FKwxw)
 * [BlockSDK REST API V2 문서](https://docs-v2.blocksdk.com/ko/#fa255f0ccc)
-* [BLOCKSDK PHP SDK V3 문서](https://github.com/Block-Chen/blocksdk-js/wiki)
+* [BLOCKSDK JS SDK V3 문서](https://github.com/Block-Chen/blocksdk-js/wiki)
 
 ## 시작하기
 ### NPM 을 사용하여 Install

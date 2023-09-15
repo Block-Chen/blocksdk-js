@@ -14,7 +14,7 @@ class polygon extends Base {
         return this.request(`POST`,`/matic/address`,request);
     }
     GetAddressInfo(request){
-        return this.request(`GET`,`/matic/address/${request['address']}`,request);
+        return this.request(`GET`,`/matic/address/${request['address']}/info`,request);
     }
     GetAddressBalance(request){
         return this.request(`GET`,`/matic/address/${request['address']}/balance`);

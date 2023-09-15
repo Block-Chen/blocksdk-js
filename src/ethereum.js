@@ -14,7 +14,7 @@ class ethereum extends Base {
         return this.request(`POST`,`/eth/address`,request);
     }
     GetAddressInfo(request){
-        return this.request(`GET`,`/eth/address/${request['address']}`,request);
+        return this.request(`GET`,`/eth/address/${request['address']}/info`,request);
     }
     GetAddressBalance(request){
         return this.request(`GET`,`/eth/address/${request['address']}/balance`);

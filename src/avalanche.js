@@ -14,7 +14,7 @@ class avalanche extends Base {
         return this.request(`POST`,`/avax/address`,request);
     }
     GetAddressInfo(request){
-        return this.request(`GET`,`/avax/address/${request['address']}`,request);
+        return this.request(`GET`,`/avax/address/${request['address']}/info`,request);
     }
     GetAddressBalance(request){
         return this.request(`GET`,`/avax/address/${request['address']}/balance`);

@@ -7,15 +7,14 @@ const Polygon = require('./polygon')
 
 class blocksdk {
 
-    constructor(api_token) {
-        this.ethereum = new Ethereum(api_token);
-        this.avalanche = new Avalanche(api_token);
-        this.ethereumClassic = new EthereumClassic(api_token);
-        this.klaytn = new Klaytn(api_token);
-        this.binanceSmart = new BinanceSmart(api_token);
-        this.polygon = new Polygon(api_token);
+    constructor(api_token, endpoint = "https://testnet-api.blocksdk.com") {
+        this.ethereum = new Ethereum(api_token, endpoint);
+        this.avalanche = new Avalanche(api_token, endpoint);
+        this.ethereumClassic = new EthereumClassic(api_token, endpoint);
+        this.klaytn = new Klaytn(api_token, endpoint);
+        this.binanceSmart = new BinanceSmart(api_token, endpoint);
+        this.polygon = new Polygon(api_token, endpoint);
     }
-
 
 }
 

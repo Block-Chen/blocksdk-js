@@ -25,7 +25,7 @@ class base {
                 })
 
             }else if(method == "POST"){
-                result = await axios.post(url, data,{
+                result = await axios.post(url, JSON.stringify(data),{
                     withCredentials: true,
                     headers : {
                         'Content-Type'  : 'application/json',
